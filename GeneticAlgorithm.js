@@ -1,5 +1,22 @@
-/** 整数数组长度 */
-var integerArrayLength = 10;
+/** 初代染色体 */
+var generation0 = {
+    chromosome: [],
+    fitness: []
+}
+
+/** 染色体 */
+var generation = {
+    parents: [],
+    site: [],
+    chromosome: [],
+    fitness: []
+}
+
+/** 染色体集合 */
+var generations = []
+
+/** 数组长度 */
+var arrayLength = 11;
 
 /** 任务集合 */
 var tasks = [];
@@ -11,48 +28,41 @@ var binaryEnd;
 
 var generationFitness0 = [];
 
-(function initGA(_integerArrayLength) {
+(function initGA(arrayLength) {
     /** 初始化任务集合 */
-    tasks = initIntegerArray(integerArrayLength);
+    tasks = initIntegerArray(arrayLength);
 
-    /** 二进制结束 */
-    binaryEnd = Math.pow(2, integerArrayLength) - 1
+    /** 二进制随机数组长度 */
+    binaryEnd = Math.pow(2, arrayLength) - 1
 
-    /** 生成十进制随机数组 */
-    generation0 = getRandomArr(chromosomeNum, 1, binaryEnd);
+    /** 生成第0代二进制随机数组 */
+    generation0.chromosome = getRandomArr(chromosomeNum, 1, binaryEnd).map(item => {
+        return convertToBinary(arrayLength, item)
+    });
 
-    /** 转换成二进制随机数组 */
-    let generationBinary0 = generation0.map(item => {
-        return convertToBinary(10, item)
+    /** 根据基因计算fitness */
+    generation0.fitness = generation0.chromosome.map(item => {
+        return calFitness(item)
     })
 
-    /** 初始化第0代 */
-    for (let i = 0; i < 10; i++) {
-        generationFitness0.push(fitness = calFitness(generationBinary0[i], tasks))
-    }
-
-    console.log(generationFitness0)
     console.log(generation0)
-    console.log(generationBinary0)
 
-    /** 第一代 */
     
-
-})(integerArrayLength)
+})(arrayLength)
 
 /**
  * 计算 染色体适应度
- * @param chromosomes
+ * @param chromosome
  */
-function calFitness(chromosomes, numberArray) {
-    let binaryArray = chromosomes.split("").map(Number);
+function calFitness(chromosome) {
+    let binaryArray = chromosome.split("").map(Number);
     let A = []
     let B = []
     for (j = 0; j < binaryArray.length; j++) {
         if (binaryArray[j] == 1) {
-            A.push(numberArray[j])
+            A.push(tasks[j])
         } else {
-            B.push(numberArray[j])
+            B.push(tasks[j])
         }
     }
     return Math.abs(Sum(A) - Sum(B))
