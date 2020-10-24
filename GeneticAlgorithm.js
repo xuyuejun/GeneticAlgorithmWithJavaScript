@@ -20,6 +20,9 @@ var numberOfParents = 3;
 
 var generationsLength = 30;
 
+/** 基因突变概率 */
+var mutationProbability = 0.05;
+
 (function initGA(arrayLength) {
     /** 初始化任务集合 */
     tasks = initIntegerArray(arrayLength);
@@ -50,7 +53,7 @@ function ga(parentsGeneration) {
     for (let i = 0; i < chromosomeNum / 2; i++) {
         let parentsTemp = selectBestTwoParents(parentsGeneration)
         let siteTemp = getRandom(0, arrayLength)
-        let chromosomeTemp = cross(parentsTemp, siteTemp)
+        let chromosomeTemp = geneMutation(cross(parentsTemp, siteTemp))
         let fitnessTemp = calFitness(chromosomeTemp)
 
         let individual = {
@@ -65,7 +68,7 @@ function ga(parentsGeneration) {
         parentsFlippedTemp.push(parentsTemp[1])
         parentsFlippedTemp.push(parentsTemp[0])
 
-        let chromosomeFlippedTemp = cross(parentsFlippedTemp, siteTemp)
+        let chromosomeFlippedTemp = geneMutation(cross(parentsFlippedTemp, siteTemp))
         let fitnessFlippedTemp = calFitness(chromosomeFlippedTemp)
 
         let individualFlipped = {
@@ -136,6 +139,36 @@ function calFitness(chromosome) {
  */
 function cross(parents, site) {
     return parents[0].chromosome.slice(0, site) + parents[1].chromosome.slice(site)
+}
+
+/**
+ * 返回是否变异
+ * @param mutationProbability 变异概率
+ */
+function mutation(mutationProbability) {
+    let random = Math.random()
+    if (random < mutationProbability) {
+        return 1
+    } else {
+        return 0
+    }
+}
+/**
+ * 基因突变
+ */
+function geneMutation(chromosome) {
+    chromosomeArray = chromosome.split("").map(Number)
+    let afterGeneMutation = chromosomeArray.map(item => {
+        if (mutation(mutationProbability)) {
+            if (item == 1) {
+                return 0
+            } else {
+                return 1
+            }
+        }
+        return item
+    }).join('')
+    return afterGeneMutation
 }
 
 function Sum(array) {
