@@ -18,6 +18,8 @@ var binaryEnd;
 /** 父母选择数量 */
 var numberOfParents = 3;
 
+var generationsLength = 30;
+
 (function initGA(arrayLength) {
     /** 初始化任务集合 */
     tasks = initIntegerArray(arrayLength);
@@ -28,10 +30,14 @@ var numberOfParents = 3;
     /** 初始化第一代染色体 */
     initZeroGeneration()
 
-    console.log(generation0)
+    // // 第一代
+    ga(generation0)
 
-    // 第一代
-    ga()
+    for (let step = 0; step < generationsLength; step++) {
+        ga(generations[step])
+    }
+
+    console.log(generations)
 
 })(arrayLength)
 
@@ -39,37 +45,38 @@ var numberOfParents = 3;
 /**
  * 遗传算法
  */
-function ga() {
+function ga(parentsGeneration) {
+    let generationArray = []
+    for (let i = 0; i < chromosomeNum / 2; i++) {
+        let parentsTemp = selectBestTwoParents(parentsGeneration)
+        let siteTemp = getRandom(0, arrayLength)
+        let chromosomeTemp = cross(parentsTemp, siteTemp)
+        let fitnessTemp = calFitness(chromosomeTemp)
 
-    let parentsTemp = selectBestTwoParents(generation0)
-    let siteTemp = getRandom(0, arrayLength)
-    let chromosomeTemp = cross(parentsTemp, siteTemp)
-    let fitnessTemp = calFitness(chromosomeTemp)
+        let individual = {
+            parents: parentsTemp,
+            site: siteTemp,
+            chromosome: chromosomeTemp,
+            fitness: fitnessTemp
+        }
+        generationArray.push(individual)
 
-    let individual = {
-        parents: parentsTemp,
-        site: siteTemp,
-        chromosome: chromosomeTemp,
-        fitness: fitnessTemp
+        let parentsFlippedTemp = []
+        parentsFlippedTemp.push(parentsTemp[1])
+        parentsFlippedTemp.push(parentsTemp[0])
+
+        let chromosomeFlippedTemp = cross(parentsFlippedTemp, siteTemp)
+        let fitnessFlippedTemp = calFitness(chromosomeFlippedTemp)
+
+        let individualFlipped = {
+            parents: parentsFlippedTemp,
+            site: siteTemp,
+            chromosome: chromosomeFlippedTemp,
+            fitness: fitnessFlippedTemp
+        }
+        generationArray.push(individualFlipped)
     }
-    console.log(individual)
-    // 父母翻转
-    
-    let parentsFlippedTemp = []
-    parentsFlippedTemp.push(parentsTemp[1])
-    parentsFlippedTemp.push(parentsTemp[0])
-
-    let chromosomeFlippedTemp = cross(parentsFlippedTemp, siteTemp)
-    let fitnessFlippedTemp = calFitness(chromosomeFlippedTemp)
-
-    let individualFlipped = {
-        parents: parentsFlippedTemp,
-        site: siteTemp,
-        chromosome: chromosomeFlippedTemp,
-        fitness: fitnessFlippedTemp
-    }
-    console.log(individualFlipped)
-
+    generations.push(generationArray)
 }
 
 /**
@@ -102,7 +109,7 @@ function selectBestTwoParents(lastGeneration) {
         parentTempArr.push(parents)
     }
     return parentTempArr.sort(function (a, b) {
-        return (b.fitness - a.fitness)
+        return (a.fitness - b.fitness)
     }).slice(0, 2)
 }
 
