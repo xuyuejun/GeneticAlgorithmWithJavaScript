@@ -52,19 +52,23 @@ function ga() {
         chromosome: chromosomeTemp,
         fitness: fitnessTemp
     }
-
-    // console.log(individual)
-
-    console.log(parentsTemp)
-
-    let parentsFlipTemp = []
-
-    // 翻转父母数组
-    parentsFlipTemp.push(parentsTemp[1])
-    parentsFlipTemp.push(parentsTemp[0])
+    console.log(individual)
+    // 父母翻转
     
-    console.log(parentsFlipTemp)
+    let parentsFlippedTemp = []
+    parentsFlippedTemp.push(parentsTemp[1])
+    parentsFlippedTemp.push(parentsTemp[0])
 
+    let chromosomeFlippedTemp = cross(parentsFlippedTemp, siteTemp)
+    let fitnessFlippedTemp = calFitness(chromosomeFlippedTemp)
+
+    let individualFlipped = {
+        parents: parentsFlippedTemp,
+        site: siteTemp,
+        chromosome: chromosomeFlippedTemp,
+        fitness: fitnessFlippedTemp
+    }
+    console.log(individualFlipped)
 
 }
 
