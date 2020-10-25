@@ -93,9 +93,6 @@ function drawBasicLineChart(resultData, ElementId) {
     tooltip: {
         trigger: 'axis'
     },
-    legend: {
-        data: ['邮件营销', '联盟广告', '视频广告', '直接访问', '搜索引擎']
-    },
     toolbox: {
         feature: {
             saveAsImage: {}
@@ -123,5 +120,3 @@ function drawBasicLineChart(resultData, ElementId) {
     // 使用刚指定的配置项和数据显示图表。
     myChart.setOption(option);
 }
-
-
