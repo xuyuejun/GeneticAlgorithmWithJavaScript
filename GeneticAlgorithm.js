@@ -18,7 +18,7 @@ var binaryEnd;
 /** 父母选择数量 */
 var numberOfParents = 3;
 
-var generationsLength = 200;
+var generationsLength = 300;
 
 /** 基因突变概率 */
 var mutationProbability = 0.05;
@@ -64,6 +64,7 @@ var bestFitness;
     drawBasicLineChart(bestFitnessGroup,'second')
 
     bestFitness = Math.min(...bestFitnessGroup)
+    console.log(bestFitness)
     document.getElementById("bestFitness").innerHTML = bestFitness;
 })(arrayLength)
 

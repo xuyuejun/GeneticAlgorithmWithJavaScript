@@ -96,12 +96,6 @@ function drawBasicLineChart(resultData, ElementId) {
     legend: {
         data: ['邮件营销', '联盟广告', '视频广告', '直接访问', '搜索引擎']
     },
-    grid: {
-        left: '3%',
-        right: '4%',
-        bottom: '3%',
-        containLabel: true
-    },
     toolbox: {
         feature: {
             saveAsImage: {}
@@ -114,7 +108,8 @@ function drawBasicLineChart(resultData, ElementId) {
         data: xAxisdata
     },
     yAxis: {
-        type: 'value'
+        type: 'value',
+        name: '适应度'
     },
     series: [
         {
