@@ -18,7 +18,7 @@ var binaryEnd;
 /** 父母选择数量 */
 var numberOfParents = 3;
 
-var generationsLength = 100;
+var generationsLength = 200;
 
 /** 基因突变概率 */
 var mutationProbability = 0.05;
@@ -26,6 +26,8 @@ var mutationProbability = 0.05;
 var fitnessGroup = [];
 
 var bestFitnessGroup = [];
+
+var bestFitness;
 
 (function initGA(arrayLength) {
     /** 初始化任务集合 */
@@ -53,16 +55,16 @@ var bestFitnessGroup = [];
         })
         fitnessGroup.push(a)
     })
-    // console.log(fitnessGroup)
 
     fitnessGroup.map(item => {
         bestFitnessGroup.push(Math.min(...item))
     })
 
-    console.log(bestFitnessGroup)
     drawScatterChart(fitnessGroup,'first')
     drawBasicLineChart(bestFitnessGroup,'second')
 
+    bestFitness = Math.min(...bestFitnessGroup)
+    document.getElementById("bestFitness").innerHTML = bestFitness;
 })(arrayLength)
 
 

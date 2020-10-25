@@ -25,9 +25,6 @@ function drawScatterChart(resultData, ElementId) {
             },
             zlevel: 1
         },
-        legend: {
-            data: ['遗传算法']
-        },
         toolbox: {
             show: true,
             feature: {
@@ -75,29 +72,58 @@ function drawScatterChart(resultData, ElementId) {
             })()
         }]
     };
-    console.log("Option")
-    console.log(option)
     // 使用刚指定的配置项和数据显示图表。
     myChart.setOption(option);
 }
 
 function drawBasicLineChart(resultData, ElementId) {
+    let xAxisdata = []
+    for (i = 0; i < resultData.length; i++) {
+        xAxisdata.push(i)
+    }
+    
     // 基于准备好的dom，初始化echarts实例
     var myChart = echarts.init(document.getElementById(ElementId));
 
     // 指定图表的配置项和数据
     var option = {
-        xAxis: {
-            type: 'category',
-            data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-        },
-        yAxis: {
-            type: 'value'
-        },
-        series: [{
-            data: resultData,
-            type: 'line'
-        }]
+    title: {
+        text: '最优适应度'
+    },
+    tooltip: {
+        trigger: 'axis'
+    },
+    legend: {
+        data: ['邮件营销', '联盟广告', '视频广告', '直接访问', '搜索引擎']
+    },
+    grid: {
+        left: '3%',
+        right: '4%',
+        bottom: '3%',
+        containLabel: true
+    },
+    toolbox: {
+        feature: {
+            saveAsImage: {}
+        }
+    },
+    xAxis: {
+        type: 'category',
+        boundaryGap: false,
+        name: '迭代次数',
+        data: xAxisdata
+    },
+    yAxis: {
+        type: 'value'
+    },
+    series: [
+        {
+            name: 'fitness',
+            type: 'line',
+            stack: '总量',
+            data: resultData
+        }
+    ]
     };
     // 使用刚指定的配置项和数据显示图表。
     myChart.setOption(option);
