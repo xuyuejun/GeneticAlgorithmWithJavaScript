@@ -48,3 +48,7 @@ function convertToBinary(length, num) {
     }
     return str;
 }
+
+function average(nums) {
+    return nums.reduce((a, b) => a + b) / nums.length;
+}

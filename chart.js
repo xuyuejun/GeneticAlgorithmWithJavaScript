@@ -1,4 +1,3 @@
-
 /**
  * 渲染视图
  * @param resultData
@@ -81,41 +80,85 @@ function drawBasicLineChart(resultData, ElementId) {
     for (i = 0; i < resultData.length; i++) {
         xAxisdata.push(i)
     }
-    
+
     // 基于准备好的dom，初始化echarts实例
     var myChart = echarts.init(document.getElementById(ElementId));
 
     // 指定图表的配置项和数据
     var option = {
-    title: {
-        text: '最优适应度'
-    },
-    tooltip: {
-        trigger: 'axis'
-    },
-    toolbox: {
-        feature: {
-            saveAsImage: {}
-        }
-    },
-    xAxis: {
-        type: 'category',
-        boundaryGap: false,
-        name: '迭代次数',
-        data: xAxisdata
-    },
-    yAxis: {
-        type: 'value',
-        name: '适应度'
-    },
-    series: [
-        {
+        title: {
+            text: '最优适应度'
+        },
+        tooltip: {
+            trigger: 'axis'
+        },
+        toolbox: {
+            feature: {
+                saveAsImage: {}
+            }
+        },
+        xAxis: {
+            type: 'category',
+            boundaryGap: false,
+            name: '迭代次数',
+            data: xAxisdata
+        },
+        yAxis: {
+            type: 'value',
+            name: '适应度'
+        },
+        series: [{
             name: 'fitness',
             type: 'line',
             stack: '总量',
             data: resultData
-        }
-    ]
+        }]
+    };
+    // 使用刚指定的配置项和数据显示图表。
+    myChart.setOption(option);
+}
+
+function drawStackedLineChart(averageData, maxData, ElementId) {
+    let xAxisdata = []
+    for (i = 0; i < averageData.length; i++) {
+        xAxisdata.push(i)
+    }
+
+    // 基于准备好的dom，初始化echarts实例
+    var myChart = echarts.init(document.getElementById(ElementId));
+
+    // 指定图表的配置项和数据
+    var option = {
+        title: {
+            text: 'One-Max'
+        },
+        tooltip: {
+            trigger: 'axis'
+        },
+        legend: {
+            data: ['平均值', '最大值']
+        },
+        xAxis: {
+            type: 'category',
+            boundaryGap: false,
+            name: '迭代次数',
+            data: xAxisdata
+        },
+        yAxis: {
+            type: 'value',
+            name: '适应度'
+        },
+        series: [{
+                name: '平均值',
+                type: 'line',
+                data: averageData
+            },
+            {
+                name: '最大值',
+                type: 'line',
+                data: maxData
+            }
+        ]
     };
     // 使用刚指定的配置项和数据显示图表。
     myChart.setOption(option);
